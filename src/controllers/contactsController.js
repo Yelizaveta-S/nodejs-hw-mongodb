@@ -21,7 +21,7 @@ export const getContactById = async (req, res, next) => {
     const { contactId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(contactId)) {
-        return next(createError(404, 'Contact not found'));
+        return next(createError(400, 'Invalid contact ID'));
     }
 
     const contact = await getContactByIdService(contactId);
