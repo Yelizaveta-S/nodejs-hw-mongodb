@@ -1,24 +1,10 @@
-export const errorHandler = (err, req, res) => {
-  console.error('Error:', err);
-  
-    if (err.status === 404) {
-        return res.status(404).json({
-            status: 404,
-            message: err.message || 'Not Found',
-        });
-    }
+import createHttpError from 'http-errors';
 
-    if (err.status === 400) {
-        return res.status(400).json({
-            status: 400,
-            message: err.message || 'Bad Request',
-            data: err.data || null,
-        });
-    }
+export function errorHandler(error, _req, res) {
+  if (createHttpError.isHttpError(error)) {
+    return res.status(error.status).json({ status: error.status, message: error.message });
+  }
 
-    res.status(err.status || 500).json({
-        status: err.status || 500,
-        message: err.message || 'Something went wrong',
-        data: err.data || null,
-    });
-};
+  console.error(error);
+  res.status(500).json({ status: 500, message: 'Internal server error' });
+}

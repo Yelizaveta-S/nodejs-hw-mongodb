@@ -19,7 +19,7 @@ const setupServer = () => {
         res.send('Server is up and running');
     });
 
-    app.use(contactsRoutes);
+    app.use('/contacts', contactsRoutes);
 
     app.use(notFoundHandler);
     app.use(errorHandler);
