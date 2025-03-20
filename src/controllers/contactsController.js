@@ -12,10 +12,17 @@ const ALLOWED_CONTACT_TYPES = ['family', 'friends', 'work', 'other'];
 export async function getAllContacts(req, res, _next) {
     const { page = 1, perPage = 10, sortBy = 'name', sortOrder = 'asc', type, isFavourite } = req.query;
     
-    if (type && !ALLOWED_CONTACT_TYPES.includes(type)) {
-        throw createHttpError(400, 'Invalid contact type');
-    }
-    const result = await getAllContactsService(page, perPage, sortBy, sortOrder, type, isFavourite);
+    const filteredType = ALLOWED_CONTACT_TYPES.includes(type)
+      ? type
+      : undefined;
+    const result = await getAllContactsService(
+      page,
+      perPage,
+      sortBy,
+      sortOrder,
+      filteredType,
+      isFavourite,
+    );
 
     res.json({
         status: 200,
