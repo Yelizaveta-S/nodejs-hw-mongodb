@@ -7,7 +7,7 @@ import {
     deleteContactService 
 } from '../services/contactsService.js';
 
-const ALLOWED_CONTACT_TYPES = ['family', 'friends', 'work', 'other'];
+const ALLOWED_CONTACT_TYPES = ['work', 'home', 'personal'];
 
 export async function getAllContacts(req, res, _next) {
     const { page = 1, perPage = 10, sortBy = 'name', sortOrder = 'asc', type, isFavourite } = req.query;
