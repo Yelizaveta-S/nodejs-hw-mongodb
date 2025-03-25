@@ -16,12 +16,13 @@ export async function getAllContacts(req, res, _next) {
       ? type
       : undefined;
     const result = await getAllContactsService(
-      page,
-      perPage,
-      sortBy,
-      sortOrder,
-      filteredType,
-      isFavourite,
+        req.user._id, 
+        page, 
+        perPage, 
+        sortBy, 
+        sortOrder, 
+        filteredType, 
+        isFavourite
     );
 
     res.json({
@@ -33,7 +34,7 @@ export async function getAllContacts(req, res, _next) {
 
 export async function getContactById(req, res, _next) {
         const { contactId } = req.params;
-        const contact = await getContactByIdService(contactId);
+        const contact = await getContactByIdService(contactId, req.user._id);
 
         if (!contact) {
             throw createHttpError(404, 'Contact not found');
@@ -44,7 +45,7 @@ export async function getContactById(req, res, _next) {
 
 export async function createContact(req, res, _next) {
         const contactData = req.body;
-        const newContact = await createContactService(contactData);
+        const newContact = await createContactService(contactData, req.user._id);
 
         res.status(201).json({ status: 201, message: 'Contact created successfully', data: newContact });
 }
@@ -53,7 +54,7 @@ export async function updateContact(req, res, _next) {
         const { contactId } = req.params;
         const contactData = req.body;
 
-        const updatedContact = await updateContactService(contactId, contactData);
+        const updatedContact = await updateContactService(contactId, contactData, req.user._id);
 
         if (!updatedContact) {
             throw createHttpError(404, 'Contact not found');
@@ -65,7 +66,7 @@ export async function updateContact(req, res, _next) {
 export async function deleteContact(req, res, _next) {
         const { contactId } = req.params;
 
-        const deletedContact = await deleteContactService(contactId);
+        const deletedContact = await deleteContactService(contactId, req.user._id);
 
         if (!deletedContact) {
             throw createHttpError(404, 'Contact not found');

@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import contactsRoutes from './routes/contacts.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import authRoutes from './routes/auth.js';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ const setupServer = () => {
     app.use(cors());
     app.use(pino());
     app.use(express.json());
+    app.use('/auth', authRoutes);
 
     app.get('/', (req, res) => {
         res.send('Server is up and running');
