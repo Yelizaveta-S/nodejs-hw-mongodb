@@ -1,4 +1,4 @@
-import createHttpError from 'http-errors';
+// import createHttpError from 'http-errors';
 import bcrypt from 'bcryptjs';
 import { User } from '../models/user.js';
 import jwt from 'jsonwebtoken';
@@ -13,7 +13,9 @@ export const register = async (req, res, next) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      throw createHttpError(409, 'Email in use');
+      return res
+        .status(409)
+        .json({ status: 409, message: 'Email already in use' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -24,9 +26,8 @@ export const register = async (req, res, next) => {
     });
 
     res.status(201).json({
-      status: 'success',
-      message: 'Successfully registered a user!',
-      data: { id: newUser._id, name: newUser.name, email: newUser.email },
+      status: 201,
+      user: { email: newUser.email, id: newUser._id },
     });
   } catch (error) {
     next(error);
@@ -41,10 +42,18 @@ export const login = async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    if (!user) throw createHttpError(401, 'Invalid credentials');
+    if (!user) {
+      return res
+        .status(401)
+        .json({ status: 401, message: 'Invalid credentials' });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw createHttpError(401, 'Invalid credentials');
+    if (!isMatch) {
+      return res
+        .status(401)
+        .json({ status: 401, message: 'Invalid credentials' });
+    }
 
     const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: ACCESS_TOKEN_EXPIRY,
@@ -82,17 +91,23 @@ export const refresh = async (req, res, next) => {
   try {
     const { refreshToken } = req.cookies;
     if (!refreshToken) {
-      throw createHttpError(401, 'Refresh token missing');
+      return res
+        .status(401)
+        .json({ status: 401, message: 'Refresh token missing' });
     }
 
     const session = await Session.findOne({ refreshToken });
     if (!session) {
-      throw createHttpError(401, 'Invalid refresh token');
+      return res
+        .status(401)
+        .json({ status: 401, message: 'Invalid refresh token' });
     }
 
     if (session.refreshTokenValidUntil < new Date()) {
       await Session.findByIdAndDelete(session._id);
-      throw createHttpError(401, 'Refresh token expired');
+      return res
+        .status(401)
+        .json({ status: 401, message: 'Refresh token expired' });
     }
 
     const accessToken = jwt.sign(
@@ -138,7 +153,9 @@ export const refresh = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     const { refreshToken } = req.cookies;
-    if (!refreshToken) throw createHttpError(401, 'Unauthorized');
+    if (!refreshToken) {
+      return res.status(401).json({ status: 401, message: 'Unauthorized' });
+    }
 
     await Session.findOneAndDelete({ refreshToken });
 
