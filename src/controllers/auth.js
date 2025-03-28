@@ -141,7 +141,7 @@ export const refresh = async (req, res, next) => {
     });
 
     res.status(200).json({
-      status: 'success',
+      status: 200,
       message: 'Successfully refreshed a session!',
       data: { accessToken },
     });
