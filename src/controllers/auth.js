@@ -27,7 +27,7 @@ export const register = async (req, res, next) => {
 
     res.status(201).json({
       status: 201,
-      user: { email: newUser.email, id: newUser._id },
+      user: { id: newUser._id, name: newUser.name, email: newUser.email },
     });
   } catch (error) {
     next(error);
@@ -80,7 +80,10 @@ export const login = async (req, res, next) => {
     res.status(200).json({
       status: 200,
       message: 'Successfully logged in an user!',
-      data: { accessToken },
+      data: {
+        accessToken,
+        user: { id: user._id, name: user.name, email: user.email },
+      },
     });
   } catch (error) {
     next(error);
