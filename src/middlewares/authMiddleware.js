@@ -17,7 +17,7 @@ export const authMiddleware = async (req, res, next) => {
       throw createHttpError(401, 'Session expired, please log in again');
     }
 
-    req.user = { id: decoded.id };
+    req.user = { _id: decoded.id };
     next();
   } catch (error) {
     next(error);

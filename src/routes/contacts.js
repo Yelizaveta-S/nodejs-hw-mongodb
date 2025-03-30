@@ -10,10 +10,13 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { createContactSchema, updateContactSchema } from '../validation/contact.js';
+import { authMiddleware } from '../middlewares/authMiddleware.js';
+
 
 const router = express.Router();
 const jsonParser = express.json();
 
+router.use(authMiddleware);
 router.get('/', ctrlWrapper(getAllContacts));
 router.get('/:contactId', isValidId, ctrlWrapper(getContactById));
 router.post('/', jsonParser, validateBody(createContactSchema), ctrlWrapper(createContact));
