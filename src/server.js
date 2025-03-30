@@ -6,11 +6,14 @@ import contactsRoutes from './routes/contacts.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import authRoutes from './routes/auth.js';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
 const setupServer = () => {
     const app = express();
+
+    app.use(cookieParser());
 
     app.use(cors());
     app.use(pino());
