@@ -8,6 +8,8 @@ import {
   emailSchema,
   resetPasswordSchema,
 } from '../validation/auth.js';
+import { resetPasswordFinal } from '../controllers/auth.js';
+import { resetPasswordFinalSchema } from '../validation/auth.js';
 import { resetPassword } from '../controllers/resetPassword.js';
 
 const router = express.Router();
@@ -21,6 +23,11 @@ router.post(
   '/reset-password',
   validateBody(resetPasswordSchema),
   resetPassword,
+);
+router.post(
+  '/reset-pwd',
+  validateBody(resetPasswordFinalSchema),
+  resetPasswordFinal,
 );
 
 export default router;
