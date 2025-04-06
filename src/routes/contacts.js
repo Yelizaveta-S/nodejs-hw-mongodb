@@ -11,16 +11,27 @@ import { validateBody } from '../middlewares/validateBody.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { createContactSchema, updateContactSchema } from '../validation/contact.js';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
-
+import { upload } from '../middlewares/upload.js';
 
 const router = express.Router();
-const jsonParser = express.json();
+// const jsonParser = express.json();
 
 router.use(authMiddleware);
 router.get('/', ctrlWrapper(getAllContacts));
 router.get('/:contactId', isValidId, ctrlWrapper(getContactById));
-router.post('/', jsonParser, validateBody(createContactSchema), ctrlWrapper(createContact));
-router.patch('/:contactId', jsonParser, isValidId, validateBody(updateContactSchema), ctrlWrapper(updateContact));
+router.post(
+  '/',
+  upload.single('photo'),
+  validateBody(createContactSchema),
+  ctrlWrapper(createContact),
+);
+router.patch(
+  '/:contactId',
+  upload.single('photo'),
+  isValidId,
+  validateBody(updateContactSchema),
+  ctrlWrapper(updateContact),
+);
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContact));
 
 export default router;
