@@ -24,6 +24,9 @@ export const sendResetPasswordEmail = async (email) => {
       user: getEnvVar('SMTP_USER'),
       pass: getEnvVar('SMTP_PASSWORD'),
     },
+    tls: {
+      rejectUnauthorized: false,
+    },
   });
 
 
@@ -40,7 +43,8 @@ export const sendResetPasswordEmail = async (email) => {
 
   try {
     await transporter.sendMail(mailOptions);
-  } catch {
+  } catch (error) {
+    console.log(error);
     throw httpErrors(500, 'Failed to send the email, please try again later.');
   }
 
