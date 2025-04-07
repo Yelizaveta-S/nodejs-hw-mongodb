@@ -77,7 +77,9 @@ export async function createContact(req, res, _next) {
 export async function updateContact(req, res, _next) {
     const { contactId } = req.params;
     const contactData = req.body;
-    let photoUrl = null;
+  let photoUrl = null;
+  const updateData = { ...contactData };
+  console.log('req.file:', req.file);  //Видалити
 
     if (req.file) {
         try {
@@ -88,7 +90,8 @@ export async function updateContact(req, res, _next) {
           });
         console.log('req.file.path:', req.file.path);
         const result = await cloudinary.uploader.upload(req.file.path);
-        photoUrl = result.secure_url;
+          photoUrl = result.secure_url;
+          updateData.photo = photoUrl;
         await fs.unlink(req.file.path);
       } catch (error) {
         console.error('Error uploading to Cloudinary:', error);
@@ -98,7 +101,7 @@ export async function updateContact(req, res, _next) {
 
     const updatedContact = await updateContactService(
       contactId,
-      { ...contactData, photo: photoUrl },
+      updateData,
       req.user._id,
     );
 
