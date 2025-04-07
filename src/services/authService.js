@@ -18,7 +18,7 @@ export const sendResetPasswordEmail = async (email) => {
 
   const transporter = nodemailer.createTransport({
     host: getEnvVar('SMTP_HOST'),
-    port: Number(getEnvVar('SMTP_PORT')),
+    port: 587,
     secure: false,
     auth: {
       user: getEnvVar('SMTP_USER'),
@@ -44,7 +44,7 @@ export const sendResetPasswordEmail = async (email) => {
   try {
     await transporter.sendMail(mailOptions);
   } catch (error) {
-    console.log(error);
+    console.error('Помилка при відправці email:', error);
     throw httpErrors(500, 'Failed to send the email, please try again later.');
   }
 
