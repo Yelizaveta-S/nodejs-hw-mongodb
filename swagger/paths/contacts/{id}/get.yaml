@@ -47,8 +47,7 @@ responses:
               type: string
               description: ID of the user who owns the contact
             photo:
-              type: string
-              nullable: true
+              type: [string, 'null']
               description: Link to the contact's photo
             createdAt:
               type: string

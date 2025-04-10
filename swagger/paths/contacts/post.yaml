@@ -1,0 +1,68 @@
+tags:
+  - Contacts
+summary: Add a new contact
+operationId: addContact
+description: Add a new contact to the phonebook.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Contact name
+          phoneNumber:
+            type: string
+            description: Contact phone number
+          email:
+            type: string
+            format: email
+            description: Contact email
+          isFavourite:
+            type: boolean
+            description: Is the contact a favorite
+          contactType:
+            type: string
+            enum:
+              - work
+              - home
+              - personal
+            description: Contact type
+          photo:
+            type: [string, 'null']
+            description: Link to the contact's photo
+responses:
+  '201':
+    description: Successfully created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            _id:
+              type: string
+              description: ID of the created contact
+  '400':
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Validation error"
+  '500':
+    description: Server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Server error"

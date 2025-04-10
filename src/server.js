@@ -6,6 +6,9 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import authRoutes from './routes/auth.js';
 import cookieParser from 'cookie-parser';
+import swaggerUi from 'swagger-ui-express';
+import fs from 'node:fs';
+import YAML from 'js-yaml';
 
 const setupServer = () => {
     const app = express();
@@ -22,6 +25,11 @@ const setupServer = () => {
     });
 
     app.use('/contacts', contactsRoutes);
+
+    const yamlFile = fs.readFileSync('./docs/openapi.yaml', 'utf8');
+    const swaggerDocument = YAML.load(yamlFile);
+
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     app.use(notFoundHandler);
     app.use(errorHandler);
