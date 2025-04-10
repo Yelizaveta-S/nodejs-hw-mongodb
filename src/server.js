@@ -8,7 +8,7 @@ import authRoutes from './routes/auth.js';
 import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
 import fs from 'node:fs';
-import YAML from 'js-yaml';
+import path from 'node:path';
 
 const setupServer = () => {
     const app = express();
@@ -26,8 +26,14 @@ const setupServer = () => {
 
     app.use('/contacts', contactsRoutes);
 
-    const yamlFile = fs.readFileSync('./docs/openapi.yaml', 'utf8');
-    const swaggerDocument = YAML.load(yamlFile);
+    const swaggerDocumentPath = path.resolve(
+      process.cwd(),
+      'docs',
+      'swagger.json',
+    );
+    const swaggerDocument = JSON.parse(
+      fs.readFileSync(swaggerDocumentPath, 'utf-8'),
+    );
 
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
