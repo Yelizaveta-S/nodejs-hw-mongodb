@@ -14,7 +14,7 @@ parameters:
       type: integer
       format: int32
       minimum: 1
-  - name: limit
+  - name: perPage
     in: query
     required: false
     description: Number of contacts per page (default depends on server settings)
@@ -23,7 +23,7 @@ parameters:
       format: int32
       minimum: 1
       maximum: 100
-  - name: favourite
+  - name: isFavourite
     in: query
     required: false
     description: Filter only favourite contacts (true/false)
@@ -47,46 +47,8 @@ responses:
         schema:
           type: array
           items:
-            type: object
-            properties:
-              _id:
-                type: string
-                description: Contact ID
-              name:
-                type: string
-                description: Contact name
-              phoneNumber:
-                type: string
-                description: Contact phone number
-              email:
-                type: string
-                format: email
-                description: Contact email
-              isFavourite:
-                type: boolean
-                description: Is the contact a favorite
-              contactType:
-                type: string
-                enum:
-                  - work
-                  - home
-                  - personal
-                description: Contact type
-              userId:
-                type: string
-                description: ID of the user who owns the contact
-              photo:
-                type: [string, 'null']
-                description: Link to the contact's photo
-              createdAt:
-                type: string
-                format: date-time
-                description: Date when the contact was created
-              updatedAt:
-                type: string
-                format: date-time
-                description: Date when the contact was last updated
-  '400':
+            $ref: '../../components/schemas/contact.yaml'
+  '404':
     description: Bad request - Invalid query parameters
     content:
       application/json:

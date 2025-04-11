@@ -1,0 +1,51 @@
+type: object
+properties:
+  _id:
+    type: string
+    description: ID контакту
+    readOnly: true
+  name:
+    type: string
+    description: Ім'я контакту
+  phoneNumber:
+    type: string
+    description: Номер телефону контакту
+  email:
+    type: string
+    format: email
+    description: Електронна пошта контакту
+    x-nullable: true
+  isFavourite:
+    type: boolean
+    description: Чи є контакт улюбленим
+    default: false
+  contactType:
+    type: string
+    enum:
+      - work
+      - home
+      - personal
+    description: Тип контакту
+    default: personal
+  userId:
+    type: string
+    description: ID користувача, якому належить контакт
+    readOnly: true
+  photo:
+    type: string
+    description: Посилання на фото контакту
+    x-nullable: true
+  createdAt:
+    type: string
+    format: date-time
+    description: Дата створення контакту
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Дата останнього оновлення контакту
+    readOnly: true
+required:
+  - name
+  - phoneNumber
+  - contactType

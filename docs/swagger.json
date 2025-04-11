@@ -50,64 +50,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "Successful response - contact details",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "Contact ID"
-                    },
-                    "name": {
-                      "type": "string",
-                      "description": "Contact name"
-                    },
-                    "phoneNumber": {
-                      "type": "string",
-                      "description": "Contact phone number"
-                    },
-                    "email": {
-                      "type": "string",
-                      "format": "email",
-                      "description": "Contact email"
-                    },
-                    "isFavourite": {
-                      "type": "boolean",
-                      "description": "Is the contact a favorite"
-                    },
-                    "contactType": {
-                      "type": "string",
-                      "enum": [
-                        "work",
-                        "home",
-                        "personal"
-                      ],
-                      "description": "Contact type"
-                    },
-                    "userId": {
-                      "type": "string",
-                      "description": "ID of the user who owns the contact"
-                    },
-                    "photo": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
-                      "description": "Link to the contact's photo"
-                    },
-                    "createdAt": {
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "Date when the contact was created"
-                    },
-                    "updatedAt": {
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "Date when the contact was last updated"
-                    }
-                  }
+                  "$ref": "#/components/schemas/contact"
                 }
               }
             }
@@ -156,7 +103,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -187,10 +134,8 @@
                     "description": "New contact type"
                   },
                   "photo": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
+                    "type": "string",
+                    "format": "binary",
                     "description": "New link to the contact's photo"
                   }
                 }
@@ -204,13 +149,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "ID of the updated contact"
-                    }
-                  }
+                  "$ref": "#/components/schemas/contact"
                 }
               }
             }
@@ -353,7 +292,7 @@
             }
           },
           {
-            "name": "limit",
+            "name": "perPage",
             "in": "query",
             "required": false,
             "description": "Number of contacts per page (default depends on server settings)",
@@ -365,7 +304,7 @@
             }
           },
           {
-            "name": "favourite",
+            "name": "isFavourite",
             "in": "query",
             "required": false,
             "description": "Filter only favourite contacts (true/false)",
@@ -396,66 +335,13 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "object",
-                    "properties": {
-                      "_id": {
-                        "type": "string",
-                        "description": "Contact ID"
-                      },
-                      "name": {
-                        "type": "string",
-                        "description": "Contact name"
-                      },
-                      "phoneNumber": {
-                        "type": "string",
-                        "description": "Contact phone number"
-                      },
-                      "email": {
-                        "type": "string",
-                        "format": "email",
-                        "description": "Contact email"
-                      },
-                      "isFavourite": {
-                        "type": "boolean",
-                        "description": "Is the contact a favorite"
-                      },
-                      "contactType": {
-                        "type": "string",
-                        "enum": [
-                          "work",
-                          "home",
-                          "personal"
-                        ],
-                        "description": "Contact type"
-                      },
-                      "userId": {
-                        "type": "string",
-                        "description": "ID of the user who owns the contact"
-                      },
-                      "photo": {
-                        "type": [
-                          "string",
-                          "null"
-                        ],
-                        "description": "Link to the contact's photo"
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "Date when the contact was created"
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "Date when the contact was last updated"
-                      }
-                    }
+                    "$ref": "#/components/schemas/contact"
                   }
                 }
               }
             }
           },
-          "400": {
+          "404": {
             "description": "Bad request - Invalid query parameters",
             "content": {
               "application/json": {
@@ -488,7 +374,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -519,10 +405,8 @@
                     "description": "Contact type"
                   },
                   "photo": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
+                    "type": "string",
+                    "format": "binary",
                     "description": "Link to the contact's photo"
                   }
                 }
@@ -536,13 +420,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "ID of the created contact"
-                    }
-                  }
+                  "$ref": "#/components/schemas/contact"
                 }
               }
             }
@@ -589,6 +467,77 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Contact": {
+        "$ref": "#/components/schemas/contact"
+      },
+      "contact": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "ID контакту",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Ім'я контакту"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Номер телефону контакту"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Електронна пошта контакту",
+            "x-nullable": true
+          },
+          "isFavourite": {
+            "type": "boolean",
+            "description": "Чи є контакт улюбленим",
+            "default": false
+          },
+          "contactType": {
+            "type": "string",
+            "enum": [
+              "work",
+              "home",
+              "personal"
+            ],
+            "description": "Тип контакту",
+            "default": "personal"
+          },
+          "userId": {
+            "type": "string",
+            "description": "ID користувача, якому належить контакт",
+            "readOnly": true
+          },
+          "photo": {
+            "type": "string",
+            "description": "Посилання на фото контакту",
+            "x-nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Дата створення контакту",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Дата останнього оновлення контакту",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "name",
+          "phoneNumber",
+          "contactType"
+        ]
       }
     }
   }

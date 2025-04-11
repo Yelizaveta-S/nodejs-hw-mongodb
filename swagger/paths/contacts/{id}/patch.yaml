@@ -15,7 +15,7 @@ parameters:
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
         type: object
         properties:
@@ -40,7 +40,8 @@ requestBody:
               - personal
             description: New contact type
           photo:
-            type: [string, 'null']
+            type: string
+            format: binary
             description: New link to the contact's photo
 responses:
   '200':
@@ -48,11 +49,7 @@ responses:
     content:
       application/json:
         schema:
-          type: object
-          properties:
-            _id:
-              type: string
-              description: ID of the updated contact
+          $ref: '../../../components/schemas/contact.yaml'
   '400':
     description: Bad request
     content:

@@ -14,7 +14,6 @@ import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { upload } from '../middlewares/upload.js';
 
 const router = express.Router();
-// const jsonParser = express.json();
 
 router.use(authMiddleware);
 router.get('/', ctrlWrapper(getAllContacts));
