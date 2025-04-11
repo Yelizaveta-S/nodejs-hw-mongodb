@@ -58,7 +58,7 @@ responses:
             message:
               type: string
               example: "Authentication failed or token is invalid"
-  '404':
+  '400':
     description: Bad request - Invalid query parameters
     content:
       application/json:
