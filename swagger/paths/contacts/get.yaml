@@ -48,6 +48,16 @@ responses:
           type: array
           items:
             $ref: '../../components/schemas/contact.yaml'
+  '401':
+    description: Unauthorized - Authentication required
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Authentication failed or token is invalid"
   '404':
     description: Bad request - Invalid query parameters
     content:
