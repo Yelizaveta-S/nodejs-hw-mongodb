@@ -59,6 +59,22 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized - Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication failed or token is invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Contact not found",
             "content": {
@@ -69,6 +85,22 @@
                     "message": {
                       "type": "string",
                       "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Server error"
                     }
                   }
                 }
@@ -170,6 +202,22 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized - Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication failed or token is invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Contact not found",
             "content": {
@@ -230,6 +278,22 @@
         "responses": {
           "204": {
             "description": "Successfully deleted (No Content)"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication failed or token is invalid"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
             "description": "Contact not found",
@@ -325,6 +389,36 @@
                 "personal"
               ]
             }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "description": "Field to sort contacts by",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "name",
+                "phoneNumber",
+                "email",
+                "createdAt",
+                "updatedAt"
+              ]
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "description": "Sort order (asc or desc), default is asc",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            }
           }
         ],
         "responses": {
@@ -341,7 +435,7 @@
               }
             }
           },
-          "404": {
+          "400": {
             "description": "Bad request - Invalid query parameters",
             "content": {
               "application/json": {
@@ -351,6 +445,38 @@
                     "message": {
                       "type": "string",
                       "example": "Invalid value for parameter 'page'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication failed or token is invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Server error"
                     }
                   }
                 }
@@ -409,7 +535,12 @@
                     "format": "binary",
                     "description": "Link to the contact's photo"
                   }
-                }
+                },
+                "required": [
+                  "name",
+                  "phoneNumber",
+                  "contactType"
+                ]
               }
             }
           }
@@ -435,6 +566,22 @@
                     "message": {
                       "type": "string",
                       "example": "Validation error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication failed or token is invalid"
                     }
                   }
                 }
@@ -478,26 +625,26 @@
         "properties": {
           "_id": {
             "type": "string",
-            "description": "ID контакту",
+            "description": "Contact ID",
             "readOnly": true
           },
           "name": {
             "type": "string",
-            "description": "Ім'я контакту"
+            "description": "Contact name"
           },
           "phoneNumber": {
             "type": "string",
-            "description": "Номер телефону контакту"
+            "description": "Contact phone number"
           },
           "email": {
             "type": "string",
             "format": "email",
-            "description": "Електронна пошта контакту",
+            "description": "Contact email",
             "x-nullable": true
           },
           "isFavourite": {
             "type": "boolean",
-            "description": "Чи є контакт улюбленим",
+            "description": "Is the contact a favorite",
             "default": false
           },
           "contactType": {
@@ -507,29 +654,29 @@
               "home",
               "personal"
             ],
-            "description": "Тип контакту",
+            "description": "Contact type",
             "default": "personal"
           },
           "userId": {
             "type": "string",
-            "description": "ID користувача, якому належить контакт",
+            "description": "ID of the user who owns the contact",
             "readOnly": true
           },
           "photo": {
             "type": "string",
-            "description": "Посилання на фото контакту",
+            "description": "Link to the contact's photo",
             "x-nullable": true
           },
           "createdAt": {
             "type": "string",
             "format": "date-time",
-            "description": "Дата створення контакту",
+            "description": "Date when the contact was created",
             "readOnly": true
           },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
-            "description": "Дата останнього оновлення контакту",
+            "description": "Date when the contact was last updated",
             "readOnly": true
           }
         },
