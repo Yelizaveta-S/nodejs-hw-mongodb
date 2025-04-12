@@ -39,6 +39,28 @@ parameters:
         - work
         - home
         - personal
+  - name: sortBy
+    in: query
+    required: false
+    description: Field to sort contacts by
+    schema:
+      type: string
+      enum:
+        - name
+        - phoneNumber
+        - email
+        - createdAt
+        - updatedAt
+  - name: sortOrder
+    in: query
+    required: false
+    description: Sort order (asc or desc), default is asc
+    schema:
+      type: string
+      enum:
+        - asc
+        - desc
+      default: asc
 responses:
   '200':
     description: Successful response - list of contacts
@@ -68,3 +90,13 @@ responses:
             message:
               type: string
               example: "Invalid value for parameter 'page'"
+  '500':
+    description: Server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Server error"

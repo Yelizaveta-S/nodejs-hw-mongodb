@@ -36,6 +36,10 @@ requestBody:
             type: string
             format: binary
             description: Link to the contact's photo
+        required:
+          - name
+          - phoneNumber
+          - contactType
 responses:
   '201':
     description: Successfully created

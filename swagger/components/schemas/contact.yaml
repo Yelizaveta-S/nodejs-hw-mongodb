@@ -2,22 +2,22 @@ type: object
 properties:
   _id:
     type: string
-    description: ID контакту
+    description: Contact ID
     readOnly: true
   name:
     type: string
-    description: Ім'я контакту
+    description: Contact name
   phoneNumber:
     type: string
-    description: Номер телефону контакту
+    description: Contact phone number
   email:
     type: string
     format: email
-    description: Електронна пошта контакту
+    description: Contact email
     x-nullable: true
   isFavourite:
     type: boolean
-    description: Чи є контакт улюбленим
+    description: Is the contact a favorite
     default: false
   contactType:
     type: string
@@ -25,25 +25,25 @@ properties:
       - work
       - home
       - personal
-    description: Тип контакту
+    description: Contact type
     default: personal
   userId:
     type: string
-    description: ID користувача, якому належить контакт
+    description: ID of the user who owns the contact
     readOnly: true
   photo:
     type: string
-    description: Посилання на фото контакту
+    description: Link to the contact's photo
     x-nullable: true
   createdAt:
     type: string
     format: date-time
-    description: Дата створення контакту
+    description: Date when the contact was created
     readOnly: true
   updatedAt:
     type: string
     format: date-time
-    description: Дата останнього оновлення контакту
+    description: Date when the contact was last updated
     readOnly: true
 required:
   - name

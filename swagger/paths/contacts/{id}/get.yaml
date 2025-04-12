@@ -39,3 +39,13 @@ responses:
             message:
               type: string
               example: "Authentication failed or token is invalid"
+  '500':
+    description: Server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Server error"
