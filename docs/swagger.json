@@ -377,7 +377,7 @@
             }
           },
           {
-            "name": "contactType",
+            "name": "type",
             "in": "query",
             "required": false,
             "description": "Filter contacts by type",

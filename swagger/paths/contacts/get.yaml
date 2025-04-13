@@ -29,7 +29,7 @@ parameters:
     description: Filter only favourite contacts (true/false)
     schema:
       type: boolean
-  - name: contactType
+  - name: type
     in: query
     required: false
     description: Filter contacts by type
