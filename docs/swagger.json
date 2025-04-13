@@ -685,8 +685,7 @@
           "phoneNumber",
           "contactType",
           "_id",
-          "userId",
-          "email"
+          "userId"
         ]
       }
     }
