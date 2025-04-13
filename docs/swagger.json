@@ -683,7 +683,10 @@
         "required": [
           "name",
           "phoneNumber",
-          "contactType"
+          "contactType",
+          "_id",
+          "userId",
+          "email"
         ]
       }
     }

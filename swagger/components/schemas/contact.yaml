@@ -49,3 +49,6 @@ required:
   - name
   - phoneNumber
   - contactType
+  - _id
+  - userId
+  - email
