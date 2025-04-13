@@ -617,9 +617,6 @@
       }
     },
     "schemas": {
-      "Contact": {
-        "$ref": "#/components/schemas/contact"
-      },
       "contact": {
         "type": "object",
         "properties": {
